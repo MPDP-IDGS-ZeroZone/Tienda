@@ -1,155 +1,179 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import BurguerButton from './BurguerButton';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import { NavLink } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SearchIcon from '@mui/icons-material/Search';
-import Usuario from '../components/Usuario';
+import { useCart } from "react-use-cart";
+import { Button, ButtonGroup, List } from '@mui/material';
+import DrawerC from './DrawerC';
+import Cart from '../components/Cart/Cart';
 
-const Navbar = ({size, setShow}) => {
+const pages = [''];
+const settings = ['Logout'];
 
-  const [clicked, setClicked] = useState(false)
-  const handleClick = () => {
-    //cuando esta true lo pasa a false y vice versa
-    setClicked(!clicked)
-  }
+function ResponsiveAppBar({ contador }) {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const {
+    isEmpty,
+    totalItems,
+  } = useCart();
+
   return (
-    <>
-      <Box>
-      <Box display="flex">
-          <h2>Bienvenido a <span className="my_shop" onClick={() => setShow(true)}>
-            Protiple
-          </span></h2>
-        </Box>
-        <Box display="flex" justifyContent="flex-end">
-          <Usuario />&nbsp;&nbsp;&nbsp;&nbsp;
-          <div className="cart" onClick={() => setShow(false)}>
-            <span>
-              <ShoppingCartIcon />
-            </span>
-            <span>{size}</span>
-          </div>
-        </Box>
-        
+    <AppBar position="static" sx={{ backgroundColor: '#04336A' }}>
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+           Protible
+          </Typography>
+            <DrawerC />
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="/Home"
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            Protible
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
+          </Box>
+          
+          <NavLink to="/Cart">
+          <ShoppingCartIcon style={{ fontSize: 24, color: '#ffffff' }} />
+        {contador > 0 && <span style={{ fontSize: 16, color: '#ffffff' }}>{contador}</span>}
+          </NavLink>
+          &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <div className='burguer'>
-          <BurguerButton clicked={clicked} handleClick={handleClick} />
-        </div>
-        <BgDiv className={`initial ${clicked ? ' active' : ''}`}></BgDiv>
-      </Box>
-    </>
-  )
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
 }
 
-export default Navbar
-
-const Box = styled.nav`
-  h2{
-    color: white;
-    font-weight: 400;
-    span{
-      font-weight: bold;
-    }
-  }
-  padding: .4rem;
-  background-color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  a{
-    color: white;
-    text-decoration: none;
-    margin-right: 1rem;
-  }
-  .my_shop {
-    font-size: 1.5rem;
-    font-weight: arial;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif; 
-    cursor: pointer;
-    position: static;
-  }
-  .links{
-    position: absolute;
-    top: -700px;
-    left: -2000px;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    transition: all .5s ease;
-    a{
-      color: white;
-      font-size: 2rem;
-      display: block;
-    }
-    @media(min-width: 768px){
-      position: initial;
-      margin: 0;
-      a{
-        font-size: 1rem;
-        color: white;
-        display: inline;
-      }
-      display: block;
-    }
-  }
-  .links.active{
-    width: 100%;
-    display: block;
-    position: absolute;
-    margin-left: auto;
-    margin-right: auto;
-    top: 30%;
-    left: 0;
-    right: 0;
-    text-align: center;
-    a{
-      font-size: 2rem;
-      margin-top: 1rem;
-      color: white;
-    }
-  }
-  .burguer{
-    @media(min-width: 768px){
-      display: none;
-    }
-  }
-  .cart span:nth-child(1) {
-    font-size: 2rem;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .cart span:nth-child(2) {
-    padding: 0 2px;
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    border-radius: 7px;
-    position: relative;
-    top: -10px;
-  }
-  
-  .nav_box .cart {
-  }
-`
-
-const BgDiv = styled.div`
-  background-color: #222;
-  position: absolute;
-  top: -1000px;
-  left: -1000px;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  transition: all .6s ease ;
-  
-  &.active{
-    border-radius: 0 0 80% 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-`
+export default ResponsiveAppBar;

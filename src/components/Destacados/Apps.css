@@ -1,0 +1,85 @@
+body {
+  background: #032751;
+}
+.App {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.slick-slide > div {
+  margin: 0 20px;
+}
+.slick-list {
+  margin: 0 -10px;
+
+}
+
+.card-top {
+  font-size: 0.9rem;
+  transition: transform 0.3s, filter 0.3s;
+}
+.card-top:hover {
+  transform: scale(1.05); 
+  filter: brightness(1.2);
+}
+
+.card-bottom {
+  margin: 10px 20px;
+}
+
+.category {
+  position: relative;
+}
+.category::before {
+  content: '';
+  background: rgb(253, 253, 255);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+.oferta {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 5px 10px; 
+  border-radius: 4px; 
+  font-weight: bold; 
+}
+.cardC {
+  background-color: #031e3f; /* Color de fondo azul oscuro para CardContent */
+  color: #fff; /* Color del texto blanco para contrastar con el fondo */
+  padding: 10px; /* Añadir un poco de espacio interno */
+}
+
+.cardC:hover {
+  filter: brightness(1.2); /* Aclarar el Box al pasar el cursor sobre él */
+  transition: filter 0.3s; /* Agregar una transición suave */
+}
+.CA {
+  background-color: #031e3f; /* Color de fondo azul oscuro */
+  display: flex;
+  padding: 10px; /* Añadir un poco de espacio interno */
+}
+
+.CA button {
+  background-color: #1c8eb7; /* Color de fondo azul claro para los botones */
+  color: #000000; /* Color del texto blanco para los botones */
+}
+
+.CA button:hover {
+  background-color: #f3f4f5; /* Cambiar el color al pasar el cursor sobre los botones */
+}
+.B H2 {
+  text-align: center; /* Centra el texto horizontalmente */
+  color: #e8eaf3;
+}
+.slick-prev,
+.slick-next {
+  font-size: 30px; /* Tamaño de fuente más grande */
+}
+
+.sho {
+  color: #e8eaf3;
+}
